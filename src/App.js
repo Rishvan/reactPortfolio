@@ -24,18 +24,18 @@ import Leadership from "./components/home/Leadership.jsx";
 import Experience from "./components/home/Experience";
 
 import { useEffect } from "react";
-import Candidate from "./models/candidate.js";
-import { Spinner } from "react-bootstrap";
+
+import apiBaseUrl from "./constants/constants.js";
 
 const Home = React.forwardRef((props, ref) => {
   const [candidate, setCandidate] = useState(null);
 
   useEffect(() => {
-    fetch("http://192.168.1.28/api/candidate/rizvan")
+    fetch(`${apiBaseUrl}candidate/rizvan`)
       .then((response) => response.json())
       .then((response) => {
         const { data } = response;
-        const newdata = new Candidate(data);
+        // const newdata = new Candidate(data);
         setCandidate(data);
         // console.log("newdata", newdata);
       });
@@ -58,7 +58,7 @@ const Home = React.forwardRef((props, ref) => {
         gradient={mainBody.gradientColors}
         // title={`${mainBody.firstName} ${mainBody.middleName} ${mainBody.lastName}`}
         title={`${candidate?.name}`}
-        message={mainBody.message}
+        message={`the sample messege`}
         icons={mainBody.icons}
         ref={ref}
       />
@@ -67,14 +67,16 @@ const Home = React.forwardRef((props, ref) => {
         <>
           {about.show && (
             <AboutMe
-              heading={about.heading}
+              heading={`${candidate.about}`}
               message={about.message}
               link={about.imageLink}
               imgSize={about.imageSize}
               resume={about.resume}
             />
           )}
-          {experiences.show && <Experience experiences={experiences} />}
+          {experiences.show && (
+            <Experience experiences={experiences} candidate={candidate} />
+          )}
           {repos.show && (
             <Project
               heading={repos.heading}
@@ -101,52 +103,6 @@ const Home = React.forwardRef((props, ref) => {
         </>
       ) : (
         <></>
-      )}
-    </>
-  );
-
-  return (
-    <>
-      <MainBody
-        gradient={mainBody.gradientColors}
-        title={`${mainBody.firstName} ${mainBody.middleName} ${mainBody.lastName}`}
-        // title={`${candidate.name}`}
-        message={mainBody.message}
-        icons={mainBody.icons}
-        ref={ref}
-      />
-      {about.show && (
-        <AboutMe
-          heading={about.heading}
-          message={about.message}
-          link={about.imageLink}
-          imgSize={about.imageSize}
-          resume={about.resume}
-        />
-      )}
-      {experiences.show && <Experience experiences={experiences} />}
-      {repos.show && (
-        <Project
-          heading={repos.heading}
-          username={repos.gitHubUsername}
-          length={repos.reposLength}
-          specfic={repos.specificRepos}
-        />
-      )}
-      {leadership.show && (
-        <Leadership
-          heading={leadership.heading}
-          message={leadership.message}
-          img={leadership.images}
-          imageSize={leadership.imageSize}
-        />
-      )}
-      {skills.show && (
-        <Skills
-          heading={skills.heading}
-          hardSkills={skills.hardSkills}
-          softSkills={skills.softSkills}
-        />
       )}
     </>
   );

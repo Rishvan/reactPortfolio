@@ -1,19 +1,19 @@
 import React from 'react';
 import ExperienceCard from "./ExperienceCard";
-import Candidate from "./models/candidate.js";
 import { Jumbotron } from './migration';
 import {
   Container,
   Row,
 } from "react-bootstrap";
 
-const Experience = ({ experiences }) => {
+const Experience = ({ experiences , candidate }) => {
   return (
     <section className="section">
       <Container>
         <Jumbotron className="bg-white">
           <h2 className="display-4 mb-5 text-center">
-            {`${candidate?.about}`}
+          {candidate.name}
+          
           </h2>
           <Row>
             {
