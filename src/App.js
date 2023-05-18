@@ -110,10 +110,31 @@ const Home = React.forwardRef((props, ref) => {
 
 const App = () => {
   const titleRef = React.useRef();
+  const [viewcount, setViewCount] = useState(null);
+
+  useEffect(() => {
+    fetch(`${apiBaseUrl}viewCount`)
+      .then((response) => response.json())
+      .then((response) => {
+        const { data } = response;
+
+        setViewCount(data);
+      });
+
+    fetch(`${apiBaseUrl}addCount`)
+      .then((response) => response.json())
+      .then((response) => {
+        const { data } = response;
+
+        // setViewCount(data);
+      });
+  }, []);
+
+  console.log("count : ", viewcount);
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL + "/"}>
-      {navBar.show && <Navbar ref={titleRef} />}
+      {navBar.show && <Navbar ref={titleRef} viewcount={viewcount} />}
       <Routes>
         <Route path="/" exact element={<Home ref={titleRef} />} />
       </Routes>

@@ -1,8 +1,7 @@
 export default class Candidate {
   constructor(basicinformation) {
     // , experiences, skills, projects
-    console.log(basicinformation);
-    console.log(basicinformation["name"]);
+
     this.name = basicinformation["name"];
     this.about = basicinformation["about"];
     this.image = basicinformation["image"];

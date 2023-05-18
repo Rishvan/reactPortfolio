@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useScrollPosition } from "../hooks/useScrollPosition";
 import useResizeObserver from "../hooks/useResizeObserver";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { mainBody, repos, about, skills } from "../editable-stuff/config.js";
 import { NavLink } from "./home/migration";
+import apiBaseUrl from "../constants/constants";
+import ViewCount from "../models/viewCount";
 
-const Navigation = React.forwardRef((props, ref) => {
+
+
+const Navigation = React.forwardRef((props, ref,viewcount) => {
   // const { showBlog, FirstName } = config;
+  console.log("props :",props,"ref : ",ref,"viewcount : ",viewcount);
   const [isTop, setIsTop] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
   const navbarMenuRef = React.useRef();
@@ -24,6 +29,8 @@ const Navigation = React.forwardRef((props, ref) => {
     [navBottom]
   );
 
+
+
   React.useEffect(() => {
     if (!navbarDimensions) return;
     navBottom - scrollPosition >= ref.current.offsetTop
@@ -33,6 +40,7 @@ const Navigation = React.forwardRef((props, ref) => {
 
   return (
     <Navbar
+      
       ref={navbarMenuRef}
       className={`px-3 fixed-top  ${!isTop ? "navbar-white" : "navbar-transparent"
         }`}
@@ -81,7 +89,7 @@ const Navigation = React.forwardRef((props, ref) => {
               Skills
             </NavLink>
           )}
-          <h5 style={{paddingTop:'10px'}}>views: {}</h5>
+          <h5 style={{paddingTop:'10px'}}>views: {props.viewcount?.count}</h5>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

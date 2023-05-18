@@ -57,12 +57,12 @@ const Language = ({ languages_url, repo_url }) => {
   const [data, setData] = useState([]);
 
   const handleRequest = useCallback(async () => {
-    try {
-      const response = await axios.get(languages_url);
-      return setData(response.data);
-    } catch (error) {
-      console.error(error.message);
-    }
+    // try {
+    //   const response = await axios.get(languages_url);
+    //   return setData(response.data);
+    // } catch (error) {
+    //   console.error(error.message);
+    // }
   }, [languages_url]);
 
   useEffect(() => {
