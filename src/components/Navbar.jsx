@@ -81,6 +81,7 @@ const Navigation = React.forwardRef((props, ref) => {
               Skills
             </NavLink>
           )}
+          <h5 style={{paddingTop:'10px'}}>views: {}</h5>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
