@@ -26,22 +26,35 @@ import Experience from "./components/home/Experience";
 import { useEffect } from "react";
 
 import apiBaseUrl from "./constants/constants.js";
+import Candidate from "./models/candidate.js";
 
 const Home = React.forwardRef((props, ref) => {
   const [candidate, setCandidate] = useState(null);
+  const [viewcount, setViewCount] = useState(null);
 
+  useEffect(() => {
+    if (candidate) {
+      fetch(`${apiBaseUrl}addCount?candidate=${candidate.name}`);
+      fetch(`${apiBaseUrl}viewCount?candidate=${candidate.name}`)
+        .then((response) => response.json())
+        .then((response) => {
+          const { data } = response;
+          console.log("count data is here ", data);
+          setViewCount(data);
+        });
+    }
+  }, [candidate]);
   useEffect(() => {
     fetch(`${apiBaseUrl}candidate/rizvan`)
       .then((response) => response.json())
       .then((response) => {
         const { data } = response;
-        // const newdata = new Candidate(data);
-        setCandidate(data);
+        const newdata = new Candidate(data);
+        setCandidate(newdata);
         // console.log("newdata", newdata);
       });
   }, []);
 
-  console.log("candidatesssss", candidate);
   // if (candidate == null) {
   //   return (
   //     <view>
@@ -58,7 +71,7 @@ const Home = React.forwardRef((props, ref) => {
         gradient={mainBody.gradientColors}
         // title={`${mainBody.firstName} ${mainBody.middleName} ${mainBody.lastName}`}
         title={`${candidate?.name}`}
-        message={`the sample messege is hello`}
+        message={`${candidate?.about}`}
         icons={mainBody.icons}
         ref={ref}
       />
@@ -110,27 +123,11 @@ const Home = React.forwardRef((props, ref) => {
 
 const App = () => {
   const titleRef = React.useRef();
-  const [viewcount, setViewCount] = useState(null);
+  const viewcount = 23;
 
-  useEffect(() => {
-    fetch(`${apiBaseUrl}viewCount`)
-      .then((response) => response.json())
-      .then((response) => {
-        const { data } = response;
+  // ViewCount(data);;
 
-        setViewCount(data);
-      });
-
-    fetch(`${apiBaseUrl}addCount`)
-      .then((response) => response.json())
-      .then((response) => {
-        const { data } = response;
-
-        // setViewCount(data);
-      });
-  }, []);
-
-  console.log("count : ", viewcount);
+  // console.log("count : ", viewcount);
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL + "/"}>
